@@ -27,7 +27,7 @@ public class Environnement {
         List<Agent> agentList = agents.get(bloc(agent));
        if(agentList.contains(agent)){
            if (agentList.indexOf(agent) == agentList.size() -1)
-               return  true;
+               return true;
        }
         return  false;
     }
@@ -39,6 +39,13 @@ public class Environnement {
                 return i;
         }
         return 0;
+    }
+
+    public Agent getAgentEnDessous(Agent agent){
+        int place = bloc(agent);
+        int index = agents.get(place).indexOf(agent);
+        if (index ==0) return  null;
+        return agents.get(place).get(index);
     }
 
     public void deplace(Agent agent){
