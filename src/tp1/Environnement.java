@@ -19,6 +19,11 @@ public class Environnement {
         }
     }
 
+    public void setAgents(Agent agent, int numbreBloc) {
+        this.agents.get(numbreBloc).add(agent);
+        agent.setEnvironnement(this);
+    }
+
     public int getNumbreBloc() {
         return numbreBloc;
     }
@@ -53,5 +58,19 @@ public class Environnement {
         agentList.remove(agent);
         int place = new Random().nextInt(getNumbreBloc());
         agents.get(place).add(agent);
+    }
+
+    public  boolean satifactionGlobal(){
+        for (List<Agent> agentList: agents) {
+            for ( Agent agent: agentList) {
+                if (!agent.getSatisfait())
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public List<List<Agent>> getAgents() {
+        return agents;
     }
 }

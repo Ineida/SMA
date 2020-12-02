@@ -1,27 +1,64 @@
 package tp1;
 
-
-import java.util.List;
-import java.util.Random;
-
 public class Agent {
     private Environnement environnement;
-    private Perception perception;
-    private Regles regles;
-    private List<Integer> placesDisponible;
-    private Boolean satisfait;
+    private Boolean satisfait = false;
+    private Agent blocDessous;
+    private Agent but;
+    private boolean libre;
+    private String name;
+    private boolean estPousse = false;
 
-    public void Action(){
-        if (estLibre())
-            deplacer();
+    public Agent(String name) {
+        this.name = name;
     }
 
-    public  void deplacer(){
-        environnement.deplace(this);
+    public Environnement getEnvironnement() {
+        return environnement;
     }
 
-    public  boolean estLibre(){
-        return environnement.estLibre(this);
+    public void setEnvironnement(Environnement environnement) {
+        this.environnement = environnement;
     }
 
+    public Agent() {
+    }
+
+    public Agent getBut() {
+        return but;
+    }
+
+    public void setBut(Agent but) {
+        this.but = but;
+    }
+
+    public void action(){
+        if(!satisfait)
+            if (libre)
+                environnement.deplace(this);
+            else
+                estPousse = true;
+    }
+
+    public  void perception(){
+        this.blocDessous = environnement.getAgentEnDessous(this);
+        this.libre = environnement.estLibre(this);
+        this.satisfait = this.blocDessous == this.but;
+    }
+
+    public Boolean getSatisfait() {
+        return satisfait;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "satisfait=" + satisfait +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
