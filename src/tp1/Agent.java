@@ -2,7 +2,7 @@ package tp1;
 
 public class Agent {
     private Environnement environnement;
-    private Boolean satisfait = false;
+    private Boolean satisfait;
     private Agent blocDessous;
     private Agent but;
     private boolean libre;
@@ -19,6 +19,7 @@ public class Agent {
 
     public void setEnvironnement(Environnement environnement) {
         this.environnement = environnement;
+        this.perception();
     }
 
     public Agent() {
@@ -43,7 +44,10 @@ public class Agent {
     public  void perception(){
         this.blocDessous = environnement.getAgentEnDessous(this);
         this.libre = environnement.estLibre(this);
-        this.satisfait = this.blocDessous == this.but;
+        this.satisfait = this.blocDessous == this.but  && (
+                this.blocDessous == null ||
+                        (this.blocDessous != null && this.blocDessous.getSatisfait())
+        );
     }
 
     public Boolean getSatisfait() {
@@ -56,8 +60,16 @@ public class Agent {
 
     @Override
     public String toString() {
+        String goal = "none";
+        if (but != null)
+            goal= but.name;
+        String bloc = "none";
+        if (blocDessous != null)
+            goal= blocDessous.name;
         return "Agent{" +
                 "satisfait=" + satisfait +
+                ", but ='" + goal +
+                ", bloc dessous ='" + goal +
                 ", name='" + name + '\'' +
                 '}';
     }

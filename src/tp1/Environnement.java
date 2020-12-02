@@ -50,7 +50,7 @@ public class Environnement {
         int place = bloc(agent);
         int index = agents.get(place).indexOf(agent);
         if (index ==0) return  null;
-        return agents.get(place).get(index);
+        return agents.get(place).get(index-1);
     }
 
     public void deplace(Agent agent){
