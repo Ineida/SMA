@@ -1,35 +1,50 @@
 package tp1;
 
 
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Environnement {
 
     private int numbreBloc;
-    private int numbreAgent;
-    private Agent[][] agents;
+    private List<List<Agent>> agents;
 
-    public Environnement(int numbreBloc, int numbreAgent) {
+    public Environnement(int numbreBloc) {
         this.numbreBloc = numbreBloc;
-        this.numbreAgent = numbreAgent;
-        this.agents = new Agent[numbreBloc][numbreAgent];
+        this.agents = new ArrayList<>();
+
+        for (int i = 0; i < numbreBloc; i++) {
+            agents.add(new ArrayList<>());
+        }
     }
 
+    public int getNumbreBloc() {
+        return numbreBloc;
+    }
 
-    public List<Pair<Integer, Integer>> placeDisponible(){
-        List<Pair<Integer, Integer>>  placeDisponible = new ArrayList<>();
-        for (int i = 0; i < numbreAgent; i++) {
-            for (int j = 0; j < numbreBloc; j++) {
-                if (agents[i][j] == null){
-                    Pair<Integer, Integer> place = new Pair(i, j);
+    public  boolean estLibre(Agent agent){
+        List<Agent> agentList = agents.get(bloc(agent));
+       if(agentList.contains(agent)){
+           if (agentList.indexOf(agent) == agentList.size() -1)
+               return  true;
+       }
+        return  false;
+    }
 
-                    placeDisponible.add(place);
-                }
-            }
+    public  int bloc(Agent agent){
+        for (int i = 0; i < numbreBloc; i++) {
+            List<Agent> agentList = agents.get(i);
+            if(agentList.contains(agent))
+                return i;
         }
-        return placeDisponible;
+        return 0;
+    }
+
+    public void deplace(Agent agent){
+        List<Agent> agentList = agents.get(bloc(agent));
+        agentList.remove(agent);
+        int place = new Random().nextInt(getNumbreBloc());
+        agents.get(place).add(agent);
     }
 }

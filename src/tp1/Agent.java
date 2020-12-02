@@ -1,7 +1,8 @@
 package tp1;
 
-import java.awt.*;
+
 import java.util.List;
+import java.util.Random;
 
 public class Agent {
     private Environnement environnement;
@@ -9,20 +10,18 @@ public class Agent {
     private Regles regles;
     private List<Integer> placesDisponible;
     private Boolean satisfait;
-    private Agent agentEnDessous;
-    private boolean pousse;
-    private Pair<Integer, Integer> emplecement;
-
 
     public void Action(){
+        if (estLibre())
+            deplacer();
+    }
 
+    public  void deplacer(){
+        environnement.deplace(this);
     }
 
     public  boolean estLibre(){
-
+        return environnement.estLibre(this);
     }
 
-    public  void seDeplacer(){
-        if (environnement.placeDisponible().)
-    }
 }
